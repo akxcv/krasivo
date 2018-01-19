@@ -1,0 +1,15 @@
+{
+  "name": "krasivo",
+  "version": "1.0.0",
+  "author": "Alexander Komarov <ak@akxcv.com>",
+  "license": "MIT",
+  "bin": {
+    "krasivo": "./cli.js"
+  },
+  "main": "krasivo.js",
+  "files": [
+    "build/symbols.json",
+    "cli.js",
+    "krasivo.js"
+  ]
+}

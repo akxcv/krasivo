@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const lettersEn = require('../data/letters-en')
+const lettersRu = require('../data/letters-ru')
+const punctuation = require('../data/punctuation')
+
+// key is needed for error reporting
+function compileSymbol(key, symbol) {
+  // remove spaces, leading and trailing newlines
+  const pureSymbol = symbol.replace(/ /g, '').slice(1, -1)
+  const result = pureSymbol.split('\n')
+
+  // validate symbol
+  if (result.length !== 7) {
+    throw new Error(
+      `Symbol "${key}"'s height is invalid! Expected 7, got ${result.length}`
+    )
+  }
+  if (result.some((row, rowIndex) => row.length !== 5 && row.length !== 3)) {
+    throw new Error(
+      `Symbol "${key}" has invalid length at row ${rowIndex}. Expected 3 or 5, got ${
+        row.length
+      }`
+    )
+  }
+
+  return result
+}
+
+const sources = [lettersEn, lettersRu, punctuation]
+  .map(Object.entries)
+  .reduce((acc, val) => [...acc, ...val], []) // flatten
+
+const result = sources.reduce(function(acc, [key, value]) {
+  return Object.assign({}, acc, {
+    [key]: compileSymbol(key, value)
+  })
+}, {})
+
+fs.writeFileSync(
+  path.join(__dirname, '../build/symbols.json'),
+  JSON.stringify(result, null, 2)
+)
