@@ -1,8 +1,15 @@
 {
   "name": "krasivo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Alexander Komarov <ak@akxcv.com>",
   "license": "MIT",
+  "keywords": [
+    "pretty",
+    "pretty-print",
+    "emoji",
+    "words",
+    "ascii"
+  ],
   "bin": {
     "krasivo": "./cli.js"
   },
