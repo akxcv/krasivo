@@ -15,14 +15,10 @@ module.exports = function krasivo (string, foreground, background) {
     rowFragments.length = 0
     for (var j = 0, l = str.length; j < l; j += 1) {
       symbol = str[j]
-      if (symbol === ' ') {
-        rowFragments.push(BACKGROUND_SYMBOL + BACKGROUND_SYMBOL + BACKGROUND_SYMBOL)
-      } else {
-        try {
-          rowFragments.push(symbols[symbol][i])
-        } catch (e) {
-          throw new Error('Unsupported symbol: ' + symbol)
-        }
+      try {
+        rowFragments.push(symbols[symbol][i])
+      } catch (e) {
+        throw new Error('Unsupported symbol: ' + symbol)
       }
     }
     rows.push(rowFragments.join(BACKGROUND_SYMBOL))
