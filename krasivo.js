@@ -13,8 +13,8 @@ module.exports = function krasivo (string, foreground, background) {
 
   for (var i = 0; i < SYMBOL_HEIGHT; i += 1) {
     rowFragments.length = 0
-    for (var j = 0, l = string.length; j < l; j += 1) {
-      symbol = string[j]
+    for (var j = 0, l = str.length; j < l; j += 1) {
+      symbol = str[j]
       if (symbol === ' ') {
         rowFragments.push(BACKGROUND_SYMBOL + BACKGROUND_SYMBOL + BACKGROUND_SYMBOL)
       } else {
