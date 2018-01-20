@@ -4,6 +4,7 @@ const path = require('path')
 const lettersEn = require('../data/letters-en')
 const lettersRu = require('../data/letters-ru')
 const punctuation = require('../data/punctuation')
+const numbers = require('../data/numbers')
 
 // key is needed for error reporting
 function compileSymbol(key, symbol) {
@@ -28,7 +29,7 @@ function compileSymbol(key, symbol) {
   return result
 }
 
-const sources = [lettersEn, lettersRu, punctuation]
+const sources = [lettersEn, lettersRu, punctuation, numbers]
   .map(Object.entries)
   .reduce((acc, val) => [...acc, ...val], []) // flatten
 
