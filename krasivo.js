@@ -5,7 +5,7 @@ var BACKGROUND_SYMBOL = '.'
 var FOREGROUND_SYMBOL = '#'
 var BACKGROUND_REGEXP = new RegExp('\\' + BACKGROUND_SYMBOL, 'g')
 var FOREGROUND_REGEXP = new RegExp('\\' + FOREGROUND_SYMBOL, 'g')
-var EMOJI_NAME_REGEXP = /:([\w-]+):/ // word character, '_', or '-'
+var EMOJI_NAME_REGEXP = /:([\w-]+):/g // word character, '_', or '-'
 var isArray =
   Array.isArray || function (arg) { Object.prototype.toString.call(arg) === '[object Array]' }
 
@@ -36,23 +36,35 @@ module.exports = function krasivo (string, foreground, background) {
 }
 
 function replaceForegroundAndBackground (string, foreground, background) {
-  var match // temporary storage for regexp matches
-  while (match = foreground.match(EMOJI_NAME_REGEXP)) {
-    // match[1] for group 1
-    foreground = foreground.replace(EMOJI_NAME_REGEXP, getEmojiByShortName(match[1]))
+  var matches, match // temporary storage for regexp matches
+
+  matches = foreground.match(EMOJI_NAME_REGEXP)
+  if (matches) {
+    for (var i = 0, l = matches.length; i < l; i += 1) {
+      match = matches[i]
+      foreground = foreground.replace(match, getEmojiByShortName(match))
+    }
   }
-  while (match = background.match(EMOJI_NAME_REGEXP)) {
-    background = background.replace(EMOJI_NAME_REGEXP, getEmojiByShortName(match[1]))
+
+  matches = background.match(EMOJI_NAME_REGEXP)
+  if (matches) {
+    for (var i = 0, l = matches.length; i < l; i += 1) {
+      match = matches[i]
+      background = background.replace(match, getEmojiByShortName(match))
+    }
   }
+
   return string
     .replace(FOREGROUND_REGEXP, foreground)
     .replace(BACKGROUND_REGEXP, background)
 }
 
 function getEmojiByShortName (shortName) {
-  var emojiCode = emoji[shortName]
+  // slice because we have to strip leading and trailing ':'
+  var emojiCode = emoji[shortName.slice(1, -1)]
   if (emojiCode === undefined) {
-    throw new Error('Invalid emoji name: ' + shortName)
+    // no emoji found by short name, return initial string
+    return shortName
   }
 
   return isArray(emojiCode)
