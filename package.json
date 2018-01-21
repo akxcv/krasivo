@@ -18,5 +18,8 @@
     "build/symbols.json",
     "cli.js",
     "krasivo.js"
-  ]
+  ],
+  "devDependencies": {
+    "emoji-datasource": "^4.0.3"
+  }
 }

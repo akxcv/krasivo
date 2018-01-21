@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const emojiData = require('emoji-datasource/emoji.json')
+
+function unifiedToCodePoints (unified) {
+  return unified.split('-')
+}
+
+/**
+ * Build a map from each emoji short name to its corresponding code points.
+ */
+const map = {}
+emojiData.forEach(function (anEmoji) {
+  anEmoji.short_names.forEach(function (shortName) {
+    map[shortName] = unifiedToCodePoints(anEmoji.unified)
+  })
+})
+
+const skinTones = ['1f3fb', '1f3fc', '1f3fd', '1f3fe', '1f3ff']
+skinTones.forEach(function (skinTone, index) {
+  // Slack skin tones start from 2 (:skin-tone-2:)
+  map[`skin-tone-${index+2}`] = skinTone
+})
+
+fs.writeFileSync(
+  path.join(__dirname, '../build/emoji.json'),
+  JSON.stringify(map, null, 2)
+)
