@@ -8,7 +8,8 @@
     "pretty-print",
     "emoji",
     "words",
-    "ascii"
+    "ascii",
+    "slack"
   ],
   "bin": {
     "krasivo": "./cli.js"
@@ -16,10 +17,14 @@
   "main": "krasivo.js",
   "files": [
     "build/symbols.json",
+    "build/emoji.json",
     "cli.js",
     "krasivo.js"
   ],
   "devDependencies": {
     "emoji-datasource": "^4.0.3"
+  },
+  "dependencies": {
+    "yargs": "^10.1.1"
   }
 }
