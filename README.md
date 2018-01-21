@@ -39,7 +39,7 @@ krasivo --help
 
 ### Available options:
 
-#### `shortEmoji` (default: true)
+#### - `shortEmoji` (default: true)
 When true, emoji names like `:no_good:` are converted to Unicode emoji symbols.
 
 **CLI usage**:

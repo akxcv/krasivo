@@ -68,9 +68,9 @@ module.exports = function krasivo (string, foreground, background, options) {
  *      `
  */
 function replaceForegroundAndBackground (string, foreground, background, options) {
-  var matches, match // temporary storage for regexp matches
-
   if (options.shortEmoji) {
+    var matches, match // temporary storage for regexp matches
+
     matches = foreground.match(EMOJI_NAME_REGEXP)
     if (matches) {
       for (var i = 0, l = matches.length; i < l; i += 1) {
