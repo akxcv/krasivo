@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+require('./build_emoji_data')
+require('./build_symbol_data')
