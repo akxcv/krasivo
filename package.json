@@ -22,9 +22,14 @@
     "krasivo.js"
   ],
   "devDependencies": {
-    "emoji-datasource": "^4.0.3"
+    "emoji-datasource": "^4.0.3",
+    "jest": "^22.1.4"
   },
   "dependencies": {
     "yargs": "^10.1.1"
+  },
+  "scripts": {
+    "build": "./bin/build",
+    "test": "jest"
   }
 }

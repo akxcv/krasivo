@@ -14,7 +14,7 @@ var defaultOptions = {
 }
 
 module.exports = function krasivo (string, foreground, background, options) {
-  var str = string.toLowerCase()
+  var str = string.toString().toLowerCase()
   var rows = []
   var rowFragments = []
   var symbol // for use in inner cycle
