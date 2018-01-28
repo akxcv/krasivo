@@ -35,8 +35,8 @@ module.exports = function krasivo (string, foreground, background, options) {
 
   return replaceForegroundAndBackground(
     rows.join('\n'),
-    foreground,
-    background,
+    foreground.toString(),
+    background.toString(),
     options
   )
 }
