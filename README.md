@@ -39,7 +39,7 @@ krasivo --help
 
 ### Available options:
 
-#### - `shortEmoji` (default: true)
+#### - `shortEmoji` (default: `true`)
 When true, emoji names like `:no_good:` are converted to Unicode emoji symbols.
 
 **CLI usage**:
@@ -53,9 +53,9 @@ krasivo hello :no_good: ' ' --no-short-emoji
 
 **JS usage**:
 ```js
-krasivo('hello', ':no_good', ' ', { shortEmoji: true })
+krasivo('hello', ':no_good:', ' ', { shortEmoji: true })
 // To disable:
-krasivo('hello', ':no_good', ' ', { shortEmoji: false })
+krasivo('hello', ':no_good:', ' ', { shortEmoji: false })
 ```
 
 > Slack limits message length, and after the limit is broken, the only way to send the
@@ -64,6 +64,26 @@ send a "code snippet". The problem is, every symbol in an emoji name is counted 
 separate character. `shortEmoji` feature allows you to use any emoji in your message by
 converting emoji names to actual Unicode emoji symbols, which are all 1 character long in
 Slack.
+
+#### - `skinTone` (default: `undefined`)
+When given a number (typically from 2 to 6), adds a skin tone to emoji that support skin tone
+variations. You can always specify a skin tone yourself (`:no_good::skin-tone-6:`), this will
+override the value specified in `skinTone`. It's best to configure this option in a [local
+config file](#local-config-file).
+
+**CLI usage**:
+```sh
+krasivo hello :no_good: ' ' --skin-tone=2
+# or:
+krasivo hello :no_good: ' ' -s 2
+```
+
+**JS usage**:
+```js
+krasivo('hello', ':no_good:', ' ', { skinTone: 2 })
+```
+
+### Skin colours
 
 Skin colours are supported in Slack style:
 
@@ -78,6 +98,18 @@ Skin colours are supported in Slack style:
 `":no_good::skin-tone-5:"` => 🙅🏾
 
 `":no_good::skin-tone-6:"` => 🙅🏿
+
+## Local config file
+
+Krasivo CLI looks for a `.krasivorc` YAML file in your home directory. For example, to configure
+a default skin tone, and to disable emoji replacement, create the following file:
+
+```yaml
+# ~/.krasivorc
+options:
+  skinTone: 2
+  shortEmoji: false
+```
 
 ## License
 

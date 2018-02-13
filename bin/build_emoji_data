@@ -11,10 +11,14 @@ function unifiedToCodePoints (unified) {
  * Build a map from each emoji short name to its corresponding code points.
  */
 const map = {}
+const emojiWithSkinVariations = []
 emojiData.forEach(function (anEmoji) {
   anEmoji.short_names.forEach(function (shortName) {
     map[shortName] = unifiedToCodePoints(anEmoji.unified)
   })
+  if (anEmoji.hasOwnProperty('skin_variations')) {
+    emojiWithSkinVariations.push(...anEmoji.short_names)
+  }
 })
 
 const skinTones = ['1f3fb', '1f3fc', '1f3fd', '1f3fe', '1f3ff']
@@ -25,5 +29,8 @@ skinTones.forEach(function (skinTone, index) {
 
 fs.writeFileSync(
   path.join(__dirname, '../build/emoji.json'),
-  JSON.stringify(map, null, 2)
+  JSON.stringify({
+    emojiCodePoints: map,
+    emojiWithSkinVariations,
+  }, null, 2)
 )

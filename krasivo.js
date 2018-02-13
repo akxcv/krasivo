@@ -5,9 +5,13 @@ var BACKGROUND_SYMBOL = '.'
 var FOREGROUND_SYMBOL = '#'
 var BACKGROUND_REGEXP = new RegExp('\\' + BACKGROUND_SYMBOL, 'g')
 var FOREGROUND_REGEXP = new RegExp('\\' + FOREGROUND_SYMBOL, 'g')
+var EMOJI_WITH_SKIN_COLOUR_REGEXP = /:([\w-]+):(?::(skin-tone-\d):)?/g
 var EMOJI_NAME_REGEXP = /:([\w-]+):/g // word character, '_', or '-'
 var isArray =
   Array.isArray || function (arg) { Object.prototype.toString.call(arg) === '[object Array]' }
+var arrayIncludes = Array.prototype.includes
+  ? function (arr, arg) { return arr.includes(arg) }
+  : function (arr, arg) { arr.indexOf(arg) > -1 }
 
 var defaultOptions = {
   shortEmoji: true
@@ -67,10 +71,26 @@ module.exports = function krasivo (string, foreground, background, options) {
  *        XXXXX
  *      `
  */
-function replaceForegroundAndBackground (string, foreground, background, options) {
-  if (options.shortEmoji) {
-    var matches, match // temporary storage for regexp matches
+function replaceForegroundAndBackground(string, foreground, background, options) {
+  var matches, match // temporary storage for regexp matches
 
+  if (options.skinTone) {
+    while (matches = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(foreground)) {
+      // if skin tone is not specified AND the emoji supports skin tones
+      if (matches[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, matches[1])) {
+        foreground += ':skin-tone-' + options.skinTone + ':'
+      }
+    }
+
+    while (matches = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(background)) {
+      // if skin tone is not specified AND the emoji supports skin tones
+      if (matches[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, matches[1])) {
+        background += ':skin-tone-' + options.skinTone + ':'
+      }
+    }
+  }
+
+  if (options.shortEmoji) {
     matches = foreground.match(EMOJI_NAME_REGEXP)
     if (matches) {
       for (var i = 0, l = matches.length; i < l; i += 1) {
@@ -101,9 +121,9 @@ function replaceForegroundAndBackground (string, foreground, background, options
  *   getEmojiByName(':hash:')     => '\u{0023}\u{feof}\u{20e3}'
  *   getEmojiByName(':krasivo:')  => ':krasivo:'
  */
-function getEmojiByName (name) {
+function getEmojiByName(name) {
   // slice because we have to strip leading and trailing ':'
-  var emojiCode = emoji[name.slice(1, -1)]
+  var emojiCode = emoji.emojiCodePoints[name.slice(1, -1)]
   if (emojiCode === undefined) {
     // no emoji found by short name, return initial string
     return name
@@ -119,7 +139,7 @@ function getEmojiByName (name) {
  * Example:
  *   symbolFromCodePoint(254) => '\u{feof}'
  */
-function symbolFromCodePoint (codePoint) {
+function symbolFromCodePoint(codePoint) {
   // AFAIK, using `eval` is the only way to generate any emoji from code points
   return eval('"\\u{' + codePoint + '}"')
 }
