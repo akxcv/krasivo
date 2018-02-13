@@ -83,7 +83,7 @@ describe('cli', () => {
   })
 
   it('takes settings from ~/.krasivorc', () => {
-    krasivorcContents = fixtures.withskinTone
+    krasivorcContents = fixtures.withSkinTone
     expect(callCLI('lol', ':no_good:', ':wave:')).toBe(
       [
         '🙅🏻👋🏻👋🏻👋🏻👋🏻👋🏻👋🏻🙅🏻🙅🏻🙅🏻👋🏻👋🏻🙅🏻👋🏻👋🏻👋🏻👋🏻',
