@@ -68,7 +68,7 @@ describe('cli', () => {
       ].join('\n')
     )
 
-    expect(callCLI('lol', ':no_good:', ':wave:', '--default-skin-tone=2')).toBe(
+    expect(callCLI('lol', ':no_good:', ':wave:', '--skin-tone=2')).toBe(
       [
         '🙅🏻👋🏻👋🏻👋🏻👋🏻👋🏻👋🏻🙅🏻🙅🏻🙅🏻👋🏻👋🏻🙅🏻👋🏻👋🏻👋🏻👋🏻',
         '🙅🏻👋🏻👋🏻👋🏻👋🏻👋🏻🙅🏻👋🏻👋🏻👋🏻🙅🏻👋🏻🙅🏻👋🏻👋🏻👋🏻👋🏻',
@@ -83,7 +83,7 @@ describe('cli', () => {
   })
 
   it('takes settings from ~/.krasivorc', () => {
-    krasivorcContents = fixtures.withDefaultSkinTone
+    krasivorcContents = fixtures.withskinTone
     expect(callCLI('lol', ':no_good:', ':wave:')).toBe(
       [
         '🙅🏻👋🏻👋🏻👋🏻👋🏻👋🏻👋🏻🙅🏻🙅🏻🙅🏻👋🏻👋🏻🙅🏻👋🏻👋🏻👋🏻👋🏻',

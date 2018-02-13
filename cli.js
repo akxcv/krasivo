@@ -47,7 +47,7 @@ require('yargs')
     console.log(
       krasivo.apply(null, Array.prototype.concat.call(argv._, {
         shortEmoji: argv.shortEmoji,
-        defaultSkinTone: argv.defaultSkinTone
+        skinTone: argv.skinTone
       }))
     )
   })
@@ -56,9 +56,9 @@ require('yargs')
     default: defaultOptions.shortEmoji,
     describe: 'convert emoji names to emoji symbols'
   })
-  .option('default-skin-tone', {
+  .option('skin-tone', {
     alias: 's',
-    default: defaultOptions.defaultSkinTone,
+    default: defaultOptions.skinTone,
     describe: 'default skin tone for emoji with skin variations'
   })
   .argv

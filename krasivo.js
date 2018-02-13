@@ -74,18 +74,18 @@ module.exports = function krasivo (string, foreground, background, options) {
 function replaceForegroundAndBackground(string, foreground, background, options) {
   var matches, match // temporary storage for regexp matches
 
-  if (options.defaultSkinTone) {
+  if (options.skinTone) {
     while (matches = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(foreground)) {
       // if skin tone is not specified AND the emoji supports skin tones
       if (matches[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, matches[1])) {
-        foreground += ':skin-tone-' + options.defaultSkinTone + ':'
+        foreground += ':skin-tone-' + options.skinTone + ':'
       }
     }
 
     while (matches = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(background)) {
       // if skin tone is not specified AND the emoji supports skin tones
       if (matches[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, matches[1])) {
-        background += ':skin-tone-' + options.defaultSkinTone + ':'
+        background += ':skin-tone-' + options.skinTone + ':'
       }
     }
   }

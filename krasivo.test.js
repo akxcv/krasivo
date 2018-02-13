@@ -150,10 +150,10 @@ describe('krasivo', () => {
     })
   })
 
-  describe('defaultSkinTone', () => {
+  describe('skinTone', () => {
     it('sets default skin tone to appropriate emojis', () => {
       expect(
-        krasivo('1', ':no_good:', ':wave:', { defaultSkinTone: 2 })
+        krasivo('1', ':no_good:', ':wave:', { skinTone: 2 })
       ).toBe(
         [
           ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
@@ -169,7 +169,7 @@ describe('krasivo', () => {
 
     it('does not set skin tone if it has already been specified', () => {
       expect(
-        krasivo('1', ':no_good::skin-tone-6:', ':wave:', { defaultSkinTone: 2 })
+        krasivo('1', ':no_good::skin-tone-6:', ':wave:', { skinTone: 2 })
       ).toBe(
         [
           ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:',
@@ -185,7 +185,7 @@ describe('krasivo', () => {
 
     it('does not set skin tone if emoji does not support skin variations', () => {
       expect(
-        krasivo('1', ':100:', ':wave:', { defaultSkinTone: 2 })
+        krasivo('1', ':100:', ':wave:', { skinTone: 2 })
       ).toBe(
         [
           ':wave::skin-tone-2::wave::skin-tone-2::100:',

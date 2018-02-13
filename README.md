@@ -65,22 +65,22 @@ separate character. `shortEmoji` feature allows you to use any emoji in your mes
 converting emoji names to actual Unicode emoji symbols, which are all 1 character long in
 Slack.
 
-#### - `defaultSkinTone` (default: `undefined`)
+#### - `skinTone` (default: `undefined`)
 When given a number (typically from 2 to 6), adds a skin tone to emoji that support skin tone
 variations. You can always specify a skin tone yourself (`:no_good::skin-tone-6:`), this will
-override the value specified in `defaultSkinTone`. It's best to configure this option in a [local
+override the value specified in `skinTone`. It's best to configure this option in a [local
 config file](#local-config-file).
 
 **CLI usage**:
 ```sh
-krasivo hello :no_good: ' ' --default-skin-tone=2
+krasivo hello :no_good: ' ' --skin-tone=2
 # or:
 krasivo hello :no_good: ' ' -s 2
 ```
 
 **JS usage**:
 ```js
-krasivo('hello', ':no_good:', ' ', { defaultSkinTone: 2 })
+krasivo('hello', ':no_good:', ' ', { skinTone: 2 })
 ```
 
 ### Skin colours
@@ -107,7 +107,7 @@ a default skin tone, and to disable emoji replacement, create the following file
 ```yaml
 # ~/.krasivorc
 options:
-  defaultSkinTone: 2
+  skinTone: 2
   shortEmoji: false
 ```
 

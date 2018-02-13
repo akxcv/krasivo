@@ -6,7 +6,7 @@ function loadFixture (name) {
 }
 
 module.exports = {
-  withDefaultSkinTone: loadFixture('withDefaultSkinTone'),
+  withskinTone: loadFixture('withskinTone'),
   withAllOptions: loadFixture('withAllOptions'),
   invalid: loadFixture('invalid')
 }
