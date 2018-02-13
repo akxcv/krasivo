@@ -1,5 +1,31 @@
 #!/usr/bin/env node
+
+var fs = require('fs')
+var os = require('os')
+var path = require('path')
+var jsYaml = require('js-yaml')
+var chalk = require('chalk')
 var krasivo = require('./krasivo')
+
+var CONFIG_PATH = path.join(os.homedir(), '.krasivorc')
+try {
+  var rawConfig = fs.readFileSync(CONFIG_PATH, 'utf-8')
+} catch (_) {
+  // no config found; do nothing
+}
+
+var defaultOptions = {}
+if (typeof rawConfig !== 'undefined') {
+  try {
+    var config = jsYaml.safeLoad(rawConfig) || {}
+  } catch (_) {
+    console.log(chalk.bgRed.bold.white(' ERROR '), chalk.red('.krasivorc is not a valid YAML file'))
+    process.exit(1)
+  }
+  var defaultOptions = config.options || {}
+}
+
+if (defaultOptions.shortEmoji === undefined) defaultOptions.shortEmoji = true
 
 require('yargs')
   .command('*', 'Communicate prettily', function (yargs) {
@@ -20,13 +46,19 @@ require('yargs')
   }, function (argv) {
     console.log(
       krasivo.apply(null, Array.prototype.concat.call(argv._, {
-        shortEmoji: argv.shortEmoji
+        shortEmoji: argv.shortEmoji,
+        defaultSkinTone: argv.defaultSkinTone
       }))
     )
   })
   .option('short-emoji', {
     alias: 'e',
-    default: true,
+    default: defaultOptions.shortEmoji,
     describe: 'convert emoji names to emoji symbols'
+  })
+  .option('default-skin-tone', {
+    alias: 's',
+    default: defaultOptions.defaultSkinTone,
+    describe: 'default skin tone for emoji with skin variations'
   })
   .argv

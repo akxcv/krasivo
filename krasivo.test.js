@@ -1,4 +1,9 @@
-const krasivo = require('./krasivo')
+const rawKrasivo = require('./krasivo')
+
+const defaultOptions = { shortEmoji: false }
+function krasivo (...args) {
+  return rawKrasivo(args[0], args[1], args[2], { ...defaultOptions, ...args[3] })
+}
 
 describe('krasivo', () => {
   it('works with English symbols', () => {
@@ -140,6 +145,56 @@ describe('krasivo', () => {
           '  :no_good:',
           '  :no_good:',
           '  :no_good:'
+        ].join('\n')
+      )
+    })
+  })
+
+  describe('defaultSkinTone', () => {
+    it('sets default skin tone to appropriate emojis', () => {
+      expect(
+        krasivo('1', ':no_good:', ':wave:', { defaultSkinTone: 2 })
+      ).toBe(
+        [
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
+          ':wave::skin-tone-2::no_good::skin-tone-2::no_good::skin-tone-2:',
+          ':no_good::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-2:'
+        ].join('\n')
+      )
+    })
+
+    it('does not set skin tone if it has already been specified', () => {
+      expect(
+        krasivo('1', ':no_good::skin-tone-6:', ':wave:', { defaultSkinTone: 2 })
+      ).toBe(
+        [
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:',
+          ':wave::skin-tone-2::no_good::skin-tone-6::no_good::skin-tone-6:',
+          ':no_good::skin-tone-6::wave::skin-tone-2::no_good::skin-tone-6:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:',
+          ':wave::skin-tone-2::wave::skin-tone-2::no_good::skin-tone-6:'
+        ].join('\n')
+      )
+    })
+
+    it('does not set skin tone if emoji does not support skin variations', () => {
+      expect(
+        krasivo('1', ':100:', ':wave:', { defaultSkinTone: 2 })
+      ).toBe(
+        [
+          ':wave::skin-tone-2::wave::skin-tone-2::100:',
+          ':wave::skin-tone-2::100::100:',
+          ':100::wave::skin-tone-2::100:',
+          ':wave::skin-tone-2::wave::skin-tone-2::100:',
+          ':wave::skin-tone-2::wave::skin-tone-2::100:',
+          ':wave::skin-tone-2::wave::skin-tone-2::100:',
+          ':wave::skin-tone-2::wave::skin-tone-2::100:'
         ].join('\n')
       )
     })
