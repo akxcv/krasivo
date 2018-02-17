@@ -198,5 +198,21 @@ describe('krasivo', () => {
         ].join('\n')
       )
     })
+
+    it('sets default skin tone to all emojis in fg/bg', () => {
+      expect(
+        krasivo('1', ':no_good::thumbsup:', ':wave::thumbsdown:', { skinTone: 2 })
+      ).toBe(
+        [
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':no_good::skin-tone-2::thumbsup::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:',
+          ':wave::skin-tone-2::thumbsdown::skin-tone-2::wave::skin-tone-2::thumbsdown::skin-tone-2::no_good::skin-tone-2::thumbsup::skin-tone-2:'
+        ].join('\n')
+      )
+    })
   })
 })
