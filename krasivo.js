@@ -78,14 +78,14 @@ function replaceForegroundAndBackground(string, foreground, background, options)
     while (match = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(foreground)) {
       // if skin tone is not specified AND the emoji supports skin tones
       if (match[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, match[1])) {
-        foreground = foreground.replace(match[0], `${match[0]}:skin-tone-${options.skinTone}:`)
+        foreground = foreground.replace(match[0], match[0] + ':skin-tone-' + options.skinTone + ':')
       }
     }
 
     while (match = EMOJI_WITH_SKIN_COLOUR_REGEXP.exec(background)) {
       // if skin tone is not specified AND the emoji supports skin tones
       if (match[2] === undefined && arrayIncludes(emoji.emojiWithSkinVariations, match[1])) {
-        background = background.replace(match[0], `${match[0]}:skin-tone-${options.skinTone}:`)
+        background = background.replace(match[0], match[0] + ':skin-tone-' + options.skinTone + ':')
       }
     }
   }
