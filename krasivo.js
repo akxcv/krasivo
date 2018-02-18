@@ -5,8 +5,8 @@ var BACKGROUND_SYMBOL = '.'
 var FOREGROUND_SYMBOL = '#'
 var BACKGROUND_REGEXP = new RegExp('\\' + BACKGROUND_SYMBOL, 'g')
 var FOREGROUND_REGEXP = new RegExp('\\' + FOREGROUND_SYMBOL, 'g')
-var EMOJI_WITH_SKIN_COLOUR_REGEXP = /:([\w-]+):(?::(skin-tone-\d):)?/g
-var EMOJI_NAME_REGEXP = /:([\w-]+):/g // word character, '_', or '-'
+var EMOJI_WITH_SKIN_COLOUR_REGEXP = /:([\+\w-]+):(?::(skin-tone-\d):)?/g
+var EMOJI_NAME_REGEXP = /:([\+\w-]+):/g // word character, '_', or '-'
 var isArray =
   Array.isArray || function (arg) { Object.prototype.toString.call(arg) === '[object Array]' }
 var arrayIncludes = Array.prototype.includes

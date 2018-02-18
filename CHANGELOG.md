@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.2] - 2018-02-18
+### Fixed
+- Include "+" (plus) sign to emoji regexp, which allows to use the "+1" emoji name.
+
 ## [1.2.1] - 2018-02-17
 ### Fixed
 - Bug with applying default skin tones to foregrounds / backgrounds consisting of
