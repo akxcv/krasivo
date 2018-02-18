@@ -198,7 +198,7 @@ class App extends React.Component {
           </Setting>
         </Settings>
         <textarea
-          style={{ display: 'none' }}
+          style={{ opacity: 0, pointerEvents: 'none' }}
           ref={ref => (this.textarea = ref)}
           value={prettyText}
           readOnly
