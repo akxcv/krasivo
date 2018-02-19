@@ -14,30 +14,37 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #333;
 
   input {
     font-size: 16px;
     padding: 3px 7px;
-    border-radius: 9px;
+    border-radius: 3px;
     border: 1px solid #ccc;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+    color: #333;
   }
 
   h1,
-  h2,
-  h3 {
+  h2 {
     font-family: 'Noto Serif', 'serif';
+    margin: 15px 0;
   }
-  h3 {
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
     display: inline-block;
     margin: 0;
+    font-size: 20px;
   }
 `
 
 const Header = styled.div`
-  margin: 100px 0 50px 0;
+  margin: 20px 0 5px 0;
   font-size: 20px;
   position: relative;
+  white-space: nowrap;
   ${props =>
     props.error
       ? css`
@@ -56,13 +63,15 @@ const Copy = styled.div`
 const Settings = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 `
 
 const Setting = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 30px;
+  margin: 0 5px;
   width: 338px;
 `
 
@@ -94,16 +103,33 @@ class App extends React.Component {
     shortEmoji: true
   }
 
+  componentDidMount () {
+    this.setPreviewFontSize()
+    window.addEventListener('resize', this.setPreviewFontSize)
+  }
+
   handleChange = e => {
-    const isCheckbox = e.target.type === 'checkbox'
+    const { name, type, checked, value } = e.target
+    const isCheckbox = type === 'checkbox'
     this.setState({
-      [e.target.name]: isCheckbox ? e.target.checked : e.target.value
+      [name]: isCheckbox ? checked : value
+    }, () => {
+      if (name === 'text') this.setPreviewFontSize()
     })
   }
 
   copy = () => {
     this.textarea.select()
     document.execCommand('Copy')
+  }
+
+  setPreviewFontSize = () => {
+    const symbolCount = this.previewRef.firstChild.innerText.length
+    const windowWidth = document.body.getBoundingClientRect().width
+    const fontSize = Math.min(windowWidth / symbolCount / 0.5, 20)
+    const lineHeight = fontSize * 0.8
+    this.previewRef.style.fontSize = `${fontSize}px`
+    this.previewRef.style.lineHeight = `${lineHeight}px`
   }
 
   render() {
@@ -121,16 +147,19 @@ class App extends React.Component {
     return (
       <Wrapper>
         <Header error={error}>
-          {prettyText.split('\n').map((line, index) => <div key={index}>{line}</div>)}
+          <span ref={ref => this.previewRef = ref}>
+            {prettyText
+              .split('\n')
+              .map((line, index) => <div key={index}>{line}</div>)}
+          </span>
           {!error && (
             <Copy>
               <button onClick={this.copy}>Copy to clipboard</button>
             </Copy>
           )}
         </Header>
-        <h1>Settings</h1>
         <Setting>
-          <h2>Text</h2>
+          <h1>Text</h1>
           <input
             type="text"
             name="text"
@@ -140,7 +169,7 @@ class App extends React.Component {
         </Setting>
         <Settings>
           <Setting>
-            <h2>Foreground</h2>
+            <h1>Foreground</h1>
             <input
               type="text"
               name="fg"
@@ -154,7 +183,7 @@ class App extends React.Component {
             />
           </Setting>
           <Setting>
-            <h2>Background</h2>
+            <h1>Background</h1>
             <input
               type="text"
               name="bg"
@@ -168,9 +197,9 @@ class App extends React.Component {
             />
           </Setting>
           <Setting>
-            <h2>Misc</h2>
+            <h1>Misc</h1>
             <Row>
-              <h3>Skin tone</h3>
+              <h2>Skin tone</h2>
               <select
                 name="skinTone"
                 value={this.state.skinTone || ''}
@@ -185,7 +214,7 @@ class App extends React.Component {
               </select>
             </Row>
             <Row>
-              <h3>Short emoji</h3>
+              <h2>Short emoji</h2>
               <input
                 type="checkbox"
                 name="shortEmoji"
