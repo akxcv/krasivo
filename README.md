@@ -44,18 +44,18 @@ When true, emoji names like `:no_good:` are converted to Unicode emoji symbols.
 
 **CLI usage**:
 ```sh
-krasivo hello :no_good: ' ' --short-emoji
+krasivo hello :no_good: :no_entry: --short-emoji
 # or:
-krasivo hello :no_good: ' ' -e
+krasivo hello :no_good: :no_entry: -e
 # To disable:
-krasivo hello :no_good: ' ' --no-short-emoji
+krasivo hello :no_good: :no_entry: --no-short-emoji
 ```
 
 **JS usage**:
 ```js
-krasivo('hello', ':no_good:', ' ', { shortEmoji: true })
+krasivo('hello', ':no_good:', ':no_entry:', { shortEmoji: true })
 // To disable:
-krasivo('hello', ':no_good:', ' ', { shortEmoji: false })
+krasivo('hello', ':no_good:', ':no_entry:', { shortEmoji: false })
 ```
 
 > Slack limits message length, and after the limit is broken, the only way to send the
@@ -73,14 +73,14 @@ config file](#local-config-file).
 
 **CLI usage**:
 ```sh
-krasivo hello :no_good: ' ' --skin-tone=2
+krasivo hello :no_good: :no_entry: --skin-tone=2
 # or:
-krasivo hello :no_good: ' ' -s 2
+krasivo hello :no_good: :no_entry: -s 2
 ```
 
 **JS usage**:
 ```js
-krasivo('hello', ':no_good:', ' ', { skinTone: 2 })
+krasivo('hello', ':no_good:', :no_entry:, { skinTone: 2 })
 ```
 
 ### Skin colours
