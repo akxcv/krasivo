@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import krasivo from 'krasivo'
 import styled, { css } from 'styled-components'
 import { Picker } from 'emoji-mart'
+import _ from 'lodash'
 
 import 'emoji-mart/css/emoji-mart.css'
 import './patches.css'
@@ -106,15 +107,30 @@ class App extends React.Component {
   componentDidMount () {
     this.setPreviewFontSize()
     window.addEventListener('resize', this.setPreviewFontSize)
+
+    const text = decodeURIComponent(window.location.hash.slice(1))
+    if (text.length > 0) {
+      this.setText(text)
+    }
   }
 
   handleChange = e => {
     const { name, type, checked, value } = e.target
-    const isCheckbox = type === 'checkbox'
-    this.setState({
-      [name]: isCheckbox ? checked : value
-    }, () => {
-      if (name === 'text') this.setPreviewFontSize()
+
+    if (name === 'text') {
+      this.setText(value)
+    } else {
+      const isCheckbox = type === 'checkbox'
+      this.setState({
+        [name]: isCheckbox ? checked : value
+      })
+    }
+  }
+
+  setText = text => {
+    this.setState({ text }, () => {
+      this.updateLocationHash()
+      this.setPreviewFontSize()
     })
   }
 
@@ -131,6 +147,10 @@ class App extends React.Component {
     this.previewRef.style.fontSize = `${fontSize}px`
     this.previewRef.style.lineHeight = `${lineHeight}px`
   }
+
+  updateLocationHash = _.debounce(() => {
+    window.location.hash = `#${encodeURIComponent(this.state.text)}`
+  }, 200)
 
   render() {
     let prettyText,
