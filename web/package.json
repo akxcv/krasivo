@@ -7,7 +7,7 @@
     "emoji-mart": "^2.4.2",
     "gh-pages": "^1.1.0",
     "krasivo": "^1.2.2",
-    "lodash": "^4.17.11",
+    "msgpack-lite": "^0.1.26",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",

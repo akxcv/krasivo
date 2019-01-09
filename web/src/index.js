@@ -4,6 +4,7 @@ import krasivo from 'krasivo'
 import styled, { css } from 'styled-components'
 import { Picker } from 'emoji-mart'
 import _ from 'lodash'
+import msgpack from 'msgpack-lite'
 
 import 'emoji-mart/css/emoji-mart.css'
 import './patches.css'
@@ -108,29 +109,24 @@ class App extends React.Component {
     this.setPreviewFontSize()
     window.addEventListener('resize', this.setPreviewFontSize)
 
-    const text = decodeURIComponent(window.location.hash.slice(1))
-    if (text.length > 0) {
-      this.setText(text)
+    const rawSettings = window.location.hash.slice(1)
+    if (rawSettings.length > 0) {
+      try {
+        const settings = msgpack.decode(Buffer.from(window.location.hash.slice(1), 'base64'))
+        this.setState(settings)
+      } catch (_) {}
     }
   }
 
   handleChange = e => {
     const { name, type, checked, value } = e.target
 
-    if (name === 'text') {
-      this.setText(value)
-    } else {
-      const isCheckbox = type === 'checkbox'
-      this.setState({
-        [name]: isCheckbox ? checked : value
-      })
-    }
-  }
-
-  setText = text => {
-    this.setState({ text }, () => {
+    const isCheckbox = type === 'checkbox'
+    this.setState({
+      [name]: isCheckbox ? checked : value
+    }, () => {
+      if (name === 'text') this.setPreviewFontSize()
       this.updateLocationHash()
-      this.setPreviewFontSize()
     })
   }
 
@@ -148,9 +144,10 @@ class App extends React.Component {
     this.previewRef.style.lineHeight = `${lineHeight}px`
   }
 
-  updateLocationHash = _.debounce(() => {
-    window.location.hash = `#${encodeURIComponent(this.state.text)}`
-  }, 200)
+  updateLocationHash = () => {
+    const encodedSettings = msgpack.encode(this.state).toString('base64')
+    window.location.hash = `#${encodedSettings}`
+  }
 
   render() {
     let prettyText,
@@ -158,7 +155,7 @@ class App extends React.Component {
     try {
       prettyText = krasivo(this.state.text, this.state.fg, this.state.bg, {
         shortEmoji: this.state.shortEmoji,
-        skinTone: this.state.skinTone
+        skinTone: this.state.skinTone === '0' ? null : this.state.skinTone,
       })
     } catch (e) {
       prettyText = e.message
@@ -199,7 +196,7 @@ class App extends React.Component {
             <Picker
               emoji={this.state.fg.slice(1, -1)}
               skin={this.state.skinTone || 1}
-              onClick={emoji => this.setState({ fg: `:${emoji.id}:` })}
+              onClick={emoji => this.handleChange({ target: { name: 'fg', value: `:${emoji.id}:` } })}
             />
           </Setting>
           <Setting>
@@ -213,7 +210,7 @@ class App extends React.Component {
             <Picker
               emoji={this.state.bg.slice(1, -1)}
               skin={this.state.skinTone || 1}
-              onClick={emoji => this.setState({ bg: `:${emoji.id}:` })}
+              onClick={emoji => this.handleChange({ target: { name: 'bg', value: `:${emoji.id}:` } })}
             />
           </Setting>
           <Setting>
@@ -225,7 +222,7 @@ class App extends React.Component {
                 value={this.state.skinTone || ''}
                 onChange={this.handleChange}
               >
-                <option value={null}>None</option>
+                <option value={0}>None</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
                 <option value={4}>4</option>
