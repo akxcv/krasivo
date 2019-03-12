@@ -6,6 +6,11 @@
 
 ## Installation
 
+You can use krasivo without installing it with npm like this:
+```sh
+npx krasivo [your text] [foreground string] [background string]
+```
+
 Install with [yarn](https://yarnpkg.com):
 ```sh
 yarn global add krasivo
