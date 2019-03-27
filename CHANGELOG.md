@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.0] - 2019-03-27
+### Added:
+- Support for "_" (underscore) symbol - ([@frvade][])
+
 ## [1.2.2] - 2018-02-18
 ### Fixed
 - Include "+" (plus) sign to emoji regexp, which allows to use the "+1" emoji name.
@@ -35,3 +39,4 @@ Initial release.
 
 [@past-one]: https://github.com/past-one
 [@nesaulov]: https://github.com/nesaulov
+[@frvade]: https://github.com/frvade
