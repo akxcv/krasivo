@@ -30,7 +30,7 @@ if (defaultOptions.shortEmoji === undefined) defaultOptions.shortEmoji = true
 require('yargs')
   .command('*', 'Communicate prettily', function (yargs) {
     yargs
-      .usage('$0 [args]')
+      .usage('$0 <string> <foreground> <background>')
       .positional('string', {
         type: 'string',
         describe: 'the string to pretty-print'
@@ -44,6 +44,9 @@ require('yargs')
         describe: 'the string to fill background with'
       })
   }, function (argv) {
+    if (argv._.length !== 3) {
+      throw new Error('Incorrect number of arguments provided! See `krasivo --help` for help.')
+    }
     console.log(
       krasivo.apply(null, Array.prototype.concat.call(argv._, {
         shortEmoji: argv.shortEmoji,
